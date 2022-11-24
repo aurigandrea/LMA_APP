@@ -2,7 +2,7 @@
 function myMap() {
 					var myCenter = new google.maps.LatLng(51.5253712,-0.1096562);
 					var mapCanvas = document.getElementById("map");
-					var mapOptions = {center: myCenter, zoom: 13};
+					var mapOptions = {center: myCenter, zoom: 15};
 					var map = new google.maps.Map(mapCanvas, mapOptions);
 					/* This is the array for the information*/
 					var markers = [
