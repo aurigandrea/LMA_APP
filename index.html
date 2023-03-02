@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>The history of Black London around me</title>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="style.css">
-     <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-       <script>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The history of Black London around me</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+         <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+
+
+        <style>
+        #map{ height: 600px; }
+
+</style>
+               <script>
   // When the user scrolls the page, execute myFunction
 window.onscroll = function() {myFunction()};
 
@@ -28,6 +36,7 @@ function myFunction() {
     header.classList.remove("sticky");
   }
 }
+
 // Prevents window from moving on touch on older browsers.
 window.addEventListener('touchmove', function (event) {
   event.preventDefault()
@@ -37,32 +46,231 @@ window.addEventListener('touchmove', function (event) {
 document.querySelector('.body-container').addEventListener('touchmove', function (event) {
   event.stopPropagation()
 }, false)
+
+  //geolocation code
+  const options = {
+    enableHighAccuracy: true,
+    // Get high accuracy reading, if available (default false)
+    timeout: 5000,
+    // Time to return a position successfully before error (default infinity)
+    maximumAge: 2000,
+    // Milliseconds for which it is acceptable to use cached position (default 0)
+};
+
+navigator.geolocation.watchPosition(success, error, options);
+// Fires success function immediately and when user position changes
+
+function success(pos) {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const accuracy = pos.coords.accuracy; // Accuracy in metres
+}
+
+function error(err) {
+    if (err.code === 1) {
+        alert("Please allow geolocation access");
+        // Runs if user refuses access
+    } else {
+        alert("Cannot get current location");
+        // Runs if there was a technical problem.
+    }
+}
 </script>
-    <header>
+           <header>
       <div class='header_container'>
       <div class="header" id="myHeader">
       <h1>The history of Black London around me</h1>
      </div>
     </header>
     </head>
-    <body>
-			<div class=container>
-				<div class="text-center">
-					<div id="MyMap">
-						<h3><a name="MyMap"></a>Discover the places of interest around the London Metropolitan Archives.</h3> 
-						<!--This is for inserting the google map -->
-						<div class="container">
-							<div id="map" style="width: 100%; height: 400px"></div>
-								<script src="map.js" type="text/javascript" charset="UTF-8"></script>
-								<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD__4kkKXQQ37hPpjhnVMcOE5gUy9Cy-bo&callback=myMap" async defer></script>
-							</div>
-						</div>		
-					</div>
-				</div>
-			</div>
-			</body>
-			 <footer>
-  <p>©Dr Andrea Kocsis 2022</p>
-  <p>This website was designed for the London Metropolitan Archives. The code is MIT license. Content is ©London Metropolitan Archives 2022<p>
-</footer> 
-			</html>
+
+        <body>
+            <div>
+            <!--<h1>The history of Black London around me</h1>-->
+            <h3>Discover the places of interest around the London Metropolitan Archives.</h3>
+            <p> Please,  <span class="hover-underline-animation">enable access to your location in the pop-up window</span> and let the app search for places of interest near you.<p>
+            <p>The marked points are connected to people mentioned in the historic parish records. You can read record entries if you click on the markers.</p>
+        </div>
+
+
+            <div id="map"></div>
+            <br>
+            <br>
+
+        <script>
+        
+        var map = L.map('map').setView([51.5253712, -0.1096562], 16);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+        // Sets map data source and associates with map
+
+let marker, circle, zoomed;
+
+navigator.geolocation.watchPosition(success, error);
+
+function success(pos) {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const accuracy = pos.coords.accuracy;
+
+    if (marker) {
+        map.removeLayer(marker);
+        map.removeLayer(circle);
+    }
+    // Removes any existing marker and circule (new ones about to be set)
+
+    marker = L.marker([lat, lng]).addTo(map);
+    circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+    // Adds marker to the map and a circle for accuracy
+
+    if (!zoomed) {
+        zoomed = map.fitBounds(circle.getBounds());
+    }
+    // Set zoom to boundaries of accuracy circle
+
+    map.setView([lat, lng]);
+    // Set map focus to current user position
+
+}
+
+function error(err) {
+
+    if (err.code === 1) {
+        alert("Please allow geolocation access");
+    } else {
+        alert("Cannot get current location");
+    }
+
+}
+
+// Define an array. 
+
+var points = [{
+         "name": "William Achoa",
+         "info": "William Achoa,  an Adult Person born in Africa Servant to Mr Thomas Warrell of Albermal Street. 1749 Feb 02",
+         "lat": 51.5091,
+         "lon": -0.1421
+      },
+      {
+         "name": "James Summersett",
+         "info": "James Summersett an adult black person about 30 Years of Age [of] Baldwins Gardens. This would appear to be James Somerset, the person at the centre of the 'Mansfield Ruling' of 1772. Somerset, enslaved by a Boston customs official in North America, was brought to England. After two years he escaped, but was recaptured on 26 November 1771 and forced onto a ship bound for Jamaica. With help from Granville Sharpe, an anti-slavery campaigner, a writ of habeas corpus was granted by Lord Mansfield, the Lord Chief Justice, ordering the captain of the ship to produce Somerset before a court. After many delays, Mansfield ruled in 1772 that  'no master ever was allowed here [England] to take a slave by force to be sold abroad because he deserted from his service, therefore the man must be discharged",
+         "lat": 51.519967,
+         "lon": -0.110775
+      },
+      {
+         "name": "Grace Somes",
+         "info": "Grace Somes, a Indian woman from ye [the]  Bell inn. 1711 Apr 08.The use of the language in the entry is not clear. An assumption has been made that Grace has connections with the Indian subcontinent but she could also be an Indigenous person of colour",
+         "lat": 51.5180976,
+         "lon": -0.1084128
+      },
+      {
+         "name": "William Symons",
+         "info": "William Symons an Ethiopian youth died in Mr Sidlyes house in Chancery Lane the 13th August and buried the 14 1646.",
+         "lat": 51.5162,
+         "lon": -0.1121
+      },
+      {
+         "name": "Pompey",
+         "info": "Pompey a Black [aged] 18 [brought from] Cold Bath Fields [place of burial]. Cold Bath Field was a prison during these times. 1755 Mar 23.",
+         "lat": 51.525278,
+         "lon": -0.112778
+      },
+      {
+         "name": "John Rutter",
+         "info": "John Rutter an adult Black from Cross Street about 13 years of age. 1766 Oct 13",
+         "lat": 51.5390819,
+         "lon": -0.1028822
+      },
+      {
+         "name": "John Waugh",
+         "info": "John Waugh a Native of Bengal about 19 Years of age from Grays Inn Lane.  1767 Jul 20",
+         "lat": 51.52376,
+         "lon": -0.11545
+      },
+      {
+         "name": "Four black servants",
+         "info": "Four black servants of Lord Chief Justice Treby lived here: Thomas Carter, James Mannell, Peter, and an uninfod boy. They were buried between 1693-1709.",
+         "lat": 51.520063,
+         "lon": -0.1105353
+      },
+      {
+         "name": "Thomas Clark",
+         "info": "Thomas Clark a Native of the West Indies about 50 Years of Age and Lewis Cadanan a native of the East Indies about 18 Years of Age, who were baptised in 1682, lived here.",
+         "lat": 51.5235138,
+         "lon": -0.1757848
+      },
+      {
+         "name": "William Warwick",
+         "info": "William Warwick a black person from ye [the] Marshallseas high Holborne, 1695 Feb 27.",
+         "lat": 51.51766,
+         "lon": -0.11983
+      },
+      {
+         "name": "Edward Peaser",
+         "info": "Edward Peaser an adult Black about 26 Years of Age from James Street, 1766 Feb 14",
+         "lat": 51.5108005,
+         "lon": -0.15371
+      },
+      {
+         "name": "John Clifton",
+         "info": "John Clifton a Black Living with Mrs Calvell in John Street Bedford Row was Baptizd by the info of John Could not tell when he was born. 1768 Aug 25.",
+         "lat": 51.5197813,
+         "lon": -0.1175985
+      },
+      {
+         "name": "Charles Juba",
+         "info": "Charles Juba a Black Child about 6 years of age from Mr Crutendens, Johns Street. 1766 Apr 23",
+         "lat": 51.52586,
+         "lon": -0.10402
+      },
+      {
+         "name": "Oliver Cromwell",
+         "info": "Oliver Cromwell a Native of Maddrass [Madras] about 30 years of age Lambs Conduit Street. 1781 Jan 20.",
+         "lat": 51.522,
+         "lon": -0.1186
+      },
+      {
+         "name": "John Carr",
+         "info": "John Carr, a Native of Jamaica about 20 years of Age Leather Lane. 1781 Dec 20.",
+         "lat": 51.52,
+         "lon": -0.109444
+      },
+      {
+         "name": "Anne (formerly Grace)",
+         "info": "Anne (formerly Grace) a black of Madagascar belonging to Moses Cook a shoemaker in Lincolns Inne ffields [Lincolns Inn Fields]. 1690 Mar 20",
+         "lat": 51.5161,
+         "lon": -0.1166
+      },
+      {
+         "name": "Euphemia Inglis",
+         "info": "Euphemia Inglis, an African black person born about the year 1783 See also John Inglis, son of James and Mary Jane Inglis, born in December 1805 in the parish of St Marylebone and baptised at St Olave on the same day as Euphemia. 1806 Feb 27.",
+         "lat": 51.5225,
+         "lon": -0.152222
+      },
+      { "name": "Eliz",
+         "info": "Eliz [Elizabeth] an Ethiophian a maide sert [servant] to Mr Soper Churgeon [surgeon] neare Warwick House buryed. 1665 Aug 02.",
+         "lat": 51.507397,
+         "lon": -0.1327199
+    }];
+
+
+        
+L.marker([51.5253712, -0.1096562]).addTo(map)
+            .bindPopup("I have just left the exhibition about the history of Black London. I am looking for nearby points of interest.")
+            .openPopup();
+
+for (var i in points) {
+    var latlng = L.latLng({ lat: points[i].lat, lng: points[i].lon });
+    L.marker( latlng ).addTo(map).bindPopup(points[i].info);
+}      
+
+        </script>
+    </body>
+    <footer>
+      <p>©Dr Andrea Kocsis 2023. This webapp was designed for the London Metropolitan Archives to accompany the exhibition. The code is MIT license. Content is ©London Metropolitan Archives 2023<p>
+    </footer>
+</html>
