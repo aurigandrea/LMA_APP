@@ -7,7 +7,7 @@
 }
 
   header {
-    background-image: url("header.png");
+    background-image: url("LMAheader.png");
 background-size: cover;
     background-repeat: no-repeat;
     float: none;
@@ -17,13 +17,13 @@ background-size: cover;
     border-width: 5px;
     border-color: #494D45;
     box-shadow: 5px 10px #2C2D38;
-    text-shadow: 2px 2px #2C2D38;
+    text-shadow: 2px 2px #705B5B;
   /*padding: 30px 300px;*/
   }
 
   h1 { 
-    color: #494D45;
-    font-family: Arial, Helvetica, sans-serif;
+    color: lightgrey;
+    font-family: Perpetua; 
     text-align: left;
 }
      }
@@ -36,20 +36,22 @@ background-size: cover;
     border-width: 5px;
     border-color: #494D45;
     box-shadow: 5px 10px #2C2D38;
-    text-shadow: 2px 2px #2C2D38;
-    background-image: url("header.png");
+    text-shadow: 2px 2px #705B5B;
+    background-image: url("LMAheader.png");
     background-repeat: no-repeat;
     background-size: cover
   /*padding: 30px 300px;*/
   }
   h1 { 
-    color: #494D45;
-    font-family: Arial, Helvetica, sans-serif;
+    color: lightgrey;
+    font-family: Perpetua; 
     text-align: left;
 }
      }
 h3 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Perpetua; 
+  color: #2C2D38;
+  /*text-shadow: 1px 1px #2C2D38;*/
   background-image: linear-gradient(#705B5B, #705B5B);
   background-size: 100% 10px;
   background-repeat: no-repeat;
@@ -108,3 +110,5 @@ footer {
 
 
 }
+.logos img {
+ width: 20%;}
