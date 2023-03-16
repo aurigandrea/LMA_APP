@@ -15,14 +15,14 @@ background-size: cover;
     text-align: left;
     border-style: outset;
     border-width: 5px;
-    border-color: gold;
-    box-shadow: 5px 10px #282828;
+    border-color: #494D45;
+    box-shadow: 5px 10px #2C2D38;
     text-shadow: 2px 2px gray;
   /*padding: 30px 300px;*/
   }
 
   h1 { 
-    color: #lightgrey;
+    color: #2C2D38;
     font-family: Arial, Helvetica, sans-serif;
     text-align: left;
 }
@@ -34,8 +34,8 @@ background-size: cover;
     text-align: left;
     border-style: outset;
     border-width: 5px;
-    border-color: gold;
-    box-shadow: 5px 10px #282828;
+    border-color: #494D45;
+    box-shadow: 5px 10px #2C2D38;
     text-shadow: 2px 2px gray;
     background-image: url("header.png");
     background-repeat: no-repeat;
@@ -43,14 +43,14 @@ background-size: cover;
   /*padding: 30px 300px;*/
   }
   h1 { 
-    color: #lightgrey;
+    color: #2C2D38;
     font-family: Arial, Helvetica, sans-serif;
     text-align: left;
 }
      }
 h3 {
   font-family: Arial, Helvetica, sans-serif;
-  background-image: linear-gradient(gold, gold);
+  background-image: linear-gradient(#705B5B, #705B5B);
   background-size: 100% 10px;
   background-repeat: no-repeat;
   background-position: 100% 0%;
@@ -78,7 +78,7 @@ h3:hover {
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: gold;
+  background-color: #705B5B;
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
@@ -92,12 +92,12 @@ h3:hover {
   border-style: outset;
   border-style: solid;
   border-color: black;
-  box-shadow: 5px 10px gold;
+  box-shadow: 5px 10px #494D45;
 
 }
 
 footer {
-  background-color: black;
+  background-color: #2C2D38;
   color: lightgrey;
    bottom: 0;
    width: 100%;
